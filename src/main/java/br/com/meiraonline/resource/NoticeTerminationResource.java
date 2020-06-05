@@ -1,7 +1,7 @@
 package br.com.meiraonline.resource;
 
 import java.net.URI;
-import java.util.Map;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.meiraonline.domain.NoticeTermination;
+import br.com.meiraonline.dto.MessageDTO;
 import br.com.meiraonline.service.NoticeTerminationService;
 
 @RestController
@@ -59,13 +60,21 @@ public class NoticeTerminationResource {
 	}
 	
 	@CrossOrigin(origins = "http://localhost:4200")
-	@RequestMapping(value="{id}", method=RequestMethod.PATCH)
-	public ResponseEntity<Void> export(@Validated @RequestBody Map<String, Object> noticeTerminationBody, @PathVariable Long id){
+	@RequestMapping(value="/export/{id}", method=RequestMethod.PATCH)
+	public ResponseEntity<MessageDTO> export(@Validated @RequestBody @PathVariable Long id){
 		NoticeTermination noticeTermination = new NoticeTermination();
 		noticeTermination.setId(id);
-		noticeTermination.setExport((String)noticeTerminationBody.get("export"));
-		this.noticeTerminationService.export(noticeTermination);
-		return ResponseEntity.noContent().build();
+		noticeTermination = this.noticeTerminationService.export(noticeTermination);
+		MessageDTO message = new MessageDTO();
+		message.setDate(new Date());
+		if(noticeTermination == null) {
+			message.setStatus("NOK");
+			message.setMessage("There is no Notice Termination " + id + ".");
+		}else {
+			message.setStatus("OK");
+			message.setMessage("Found " + noticeTermination.getEmployee().getId() + " - " + noticeTermination.getEmployee().getId() + " and exports with success");
+		}
+		return ResponseEntity.ok(message);
 	}
 	
 	@CrossOrigin(origins = "http://localhost:4200")

@@ -57,7 +57,7 @@ public class NoticeTerminationService {
 	
 	public NoticeTermination export(NoticeTermination noticeTermination) {
 		NoticeTermination noticeTerminationFind = this.find(noticeTermination.getId());
-		noticeTerminationFind.setExport(noticeTermination.getExport());
+		noticeTerminationFind.setExport("S");
 		return this.noticeTerminationRepository.save(noticeTerminationFind);
 	}
 
