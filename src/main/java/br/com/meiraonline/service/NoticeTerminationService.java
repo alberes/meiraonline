@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import br.com.meiraonline.domain.Employee;
 import br.com.meiraonline.domain.NoticeTermination;
 import br.com.meiraonline.exception.MeiraOnlineObjectNotFoundException;
-import br.com.meiraonline.repository.EmployeeRepository;
 import br.com.meiraonline.repository.NoticeTerminationRepository;
+import br.com.meiraonline.resource.EmployeeService;
 
 @Service
 public class NoticeTerminationService {
@@ -19,14 +19,12 @@ public class NoticeTerminationService {
 	private NoticeTerminationRepository noticeTerminationRepository;
 	
 	@Autowired
-	private EmployeeRepository employeeRepository;
+	private EmployeeService employeeService;
 	
 	public NoticeTermination insert(NoticeTermination noticeTermination) {
 		noticeTermination.setId(null);
-		Optional<Employee> employee = employeeRepository.findById(noticeTermination.getEmployee().getId());
-		noticeTermination.setEmployee(employee.orElseThrow(
-				() -> new MeiraOnlineObjectNotFoundException("Entity not found. Id: " + noticeTermination.getEmployee().getId()
-						+ " Type: " + Employee.class.getName())));
+		Employee employee = employeeService.find(noticeTermination.getEmployee().getId());
+		noticeTermination.setEmployee(employee);
 		return this.noticeTerminationRepository.save(noticeTermination);
 	}
 	

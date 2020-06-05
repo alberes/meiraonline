@@ -3,6 +3,8 @@ package br.com.meiraonline.resource;
 import java.net.URI;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -26,10 +28,11 @@ public class NoticeTerminationResource {
 	
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<Void> save(@Validated @RequestBody NoticeTermination noticeTermination){
+	public ResponseEntity<Void> insert(@Validated @RequestBody NoticeTermination noticeTermination, HttpServletResponse response){
+		response.addHeader("access-control-expose-headers", "location");
 		noticeTermination = this.noticeTerminationService.insert(noticeTermination);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().
-				path("{id}").buildAndExpand(noticeTermination.getId()).toUri();
+				path("/{id}").buildAndExpand(noticeTermination.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 
