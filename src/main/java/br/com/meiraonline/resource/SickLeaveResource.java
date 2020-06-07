@@ -60,6 +60,14 @@ public class SickLeaveResource {
 	}
 	
 	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(value="{id}", method=RequestMethod.PUT)
+	public ResponseEntity<Void> update(@Validated @RequestBody SickLeave sickLeave, @PathVariable Long id){
+		sickLeave.setId(id);
+		this.sickLeaveService.insert(sickLeave);
+		return ResponseEntity.noContent().build();
+	}
+	
+	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(value = "/export/{employeeId}", method=RequestMethod.PATCH)
 	public ResponseEntity<MessageDTO> export(@PathVariable Long employeeId){
 		int quantity = this.sickLeaveService.export(employeeId);
