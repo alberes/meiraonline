@@ -1,4 +1,4 @@
-package br.com.meiraonline.resource;
+package br.com.meiraonline.service;
 
 import java.util.Optional;
 

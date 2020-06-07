@@ -46,16 +46,15 @@ public class SickLeaveResource {
 		return ResponseEntity.ok().body(sickLeave);
 	}
 		
-	//@CrossOrigin(origins = "http://localhost:4200")
+	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(value="/employee/{employeeId}", method = RequestMethod.GET)
 	public ResponseEntity<Page<SickLeave>> find(
 			@RequestParam(value="page", defaultValue="0") Integer page, 
 			@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage, 
 			@RequestParam(value="orderBy", defaultValue="id") String orderBy, 
 			@RequestParam(value="direction", defaultValue="ASC") String direction,
-			@PathVariable Long employeeId,
-			HttpServletResponse response){
-		response.addHeader("Access-Control-Allow-Origin", "*");
+			@PathVariable Long employeeId){
+		System.out.println("linesPerPage " + linesPerPage);
 		Page<SickLeave> sickLeaves = sickLeaveService.findAll(page, linesPerPage, orderBy, direction, employeeId);
 		return ResponseEntity.ok(sickLeaves);
 	}
@@ -80,6 +79,7 @@ public class SickLeaveResource {
 	@RequestMapping(value = "/{id}", method=RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Long id){
 		this.sickLeaveService.delete(id);
+		System.out.println("Excluindo o objeto " + id);
 		return ResponseEntity.noContent().build();
 	}
 

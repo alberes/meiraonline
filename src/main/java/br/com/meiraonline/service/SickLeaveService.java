@@ -14,7 +14,6 @@ import br.com.meiraonline.domain.Employee;
 import br.com.meiraonline.domain.SickLeave;
 import br.com.meiraonline.exception.MeiraOnlineObjectNotFoundException;
 import br.com.meiraonline.repository.SickLeaveReponsitory;
-import br.com.meiraonline.resource.EmployeeService;
 
 @Service
 public class SickLeaveService {

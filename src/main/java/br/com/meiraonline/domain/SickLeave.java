@@ -10,6 +10,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class SickLeave implements Serializable{
@@ -20,22 +25,60 @@ public class SickLeave implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@NotNull(message = "Sick number can not be null")
+	@Size(min = 1, message = "Sick number can not have less than 1 characters")
 	private String sickNumber;
 	
-	private String reason;
+	private String reasonSickLeave;
 	
+	@JsonFormat(pattern="yyyy-MM-dd")
+	@NotNull(message = "Start date can not be null")
 	private Date startDate;
 	
+	@Min(value = 0, message = "Quantity can not be less then 1")
+	private Integer quantity;
+
+	@JsonFormat(pattern="yyyy-MM-dd")
+	@NotNull(message = "End date can not be null")
 	private Date endDate;
 	
-	private Integer quantity;
+	private String noticeStatus;
 	
+	private String trafficAccidentType;
+	
+	@NotNull(message="Obligatory field")
+	@Size(min=10, max=255, message="Datail sick leave must have between 10 and 255 characters")
+	private String detailSickLeave;
+	
+	@NotNull(message="Obligatory field")
+	private String cid;
+	
+	@NotNull(message="Obligatory field")
+	@Size(min=10, max=80, message="Doctor name must have between 10 and 80 characters")
 	private String doctorName;
 	
-	private String organ;
+	private String organClass;
 	
-	private String institution;
+	private String classOrganRegistration;
 	
+	private String state;
+	
+	private String rectification;
+	
+	private String rectificationOrigin;
+	
+	private String processType;
+	
+	@NotNull(message="Obligatory field")
+	@Size(min=1, message="Process number can not have less than 1 characters")
+	private String processNumber;
+	
+	private String responsibleCompensation;
+	
+	private String laborUnion;
+	
+	private String documentNumber;
+
 	private String export;
 	
 	@ManyToOne(optional=false,fetch=FetchType.EAGER)
@@ -45,32 +88,62 @@ public class SickLeave implements Serializable{
 	public SickLeave() {
 		super();
 	}
-
-	public SickLeave(String sickNumber, String reason, Date startDate, Date endDate, Integer quantity,
-			String doctorName, String organ, String institution, String export) {
+	
+	public SickLeave(String sickNumber, String reasonSickLeave, Date startDate, Integer quantity, Date endDate,
+			String noticeStatus, String trafficAccidentType, String detailSickLeave, String cid, String doctorName,
+			String organClass, String classOrganRegistration, String state, String rectification,
+			String rectificationOrigin, String processType, String processNumber, String responsibleCompensation,
+			String laborUnion, String documentNumber, String export) {
 		super();
 		this.sickNumber = sickNumber;
-		this.reason = reason;
+		this.reasonSickLeave = reasonSickLeave;
 		this.startDate = startDate;
-		this.endDate = endDate;
 		this.quantity = quantity;
+		this.endDate = endDate;
+		this.noticeStatus = noticeStatus;
+		this.trafficAccidentType = trafficAccidentType;
+		this.detailSickLeave = detailSickLeave;
+		this.cid = cid;
 		this.doctorName = doctorName;
-		this.organ = organ;
-		this.institution = institution;
+		this.organClass = organClass;
+		this.classOrganRegistration = classOrganRegistration;
+		this.state = state;
+		this.rectification = rectification;
+		this.rectificationOrigin = rectificationOrigin;
+		this.processType = processType;
+		this.processNumber = processNumber;
+		this.responsibleCompensation = responsibleCompensation;
+		this.laborUnion = laborUnion;
+		this.documentNumber = documentNumber;
 		this.export = export;
 	}
 
-	public SickLeave(String sickNumber, String reason, Date startDate, Date endDate, Integer quantity,
-			String doctorName, String organ, String institution, String export, Employee employee) {
+	public SickLeave(String sickNumber, String reasonSickLeave, Date startDate, Integer quantity, Date endDate,
+			String noticeStatus, String trafficAccidentType, String detailSickLeave, String cid, String doctorName,
+			String organClass, String classOrganRegistration, String state, String rectification,
+			String rectificationOrigin, String processType, String processNumber, String responsibleCompensation,
+			String laborUnion, String documentNumber, String export, Employee employee) {
 		super();
 		this.sickNumber = sickNumber;
-		this.reason = reason;
+		this.reasonSickLeave = reasonSickLeave;
 		this.startDate = startDate;
-		this.endDate = endDate;
 		this.quantity = quantity;
+		this.endDate = endDate;
+		this.noticeStatus = noticeStatus;
+		this.trafficAccidentType = trafficAccidentType;
+		this.detailSickLeave = detailSickLeave;
+		this.cid = cid;
 		this.doctorName = doctorName;
-		this.organ = organ;
-		this.institution = institution;
+		this.organClass = organClass;
+		this.classOrganRegistration = classOrganRegistration;
+		this.state = state;
+		this.rectification = rectification;
+		this.rectificationOrigin = rectificationOrigin;
+		this.processType = processType;
+		this.processNumber = processNumber;
+		this.responsibleCompensation = responsibleCompensation;
+		this.laborUnion = laborUnion;
+		this.documentNumber = documentNumber;
 		this.export = export;
 		this.employee = employee;
 	}
@@ -91,12 +164,12 @@ public class SickLeave implements Serializable{
 		this.sickNumber = sickNumber;
 	}
 
-	public String getReason() {
-		return reason;
+	public String getReasonSickLeave() {
+		return reasonSickLeave;
 	}
 
-	public void setReason(String reason) {
-		this.reason = reason;
+	public void setReasonSickLeave(String reasonSickLeave) {
+		this.reasonSickLeave = reasonSickLeave;
 	}
 
 	public Date getStartDate() {
@@ -107,6 +180,14 @@ public class SickLeave implements Serializable{
 		this.startDate = startDate;
 	}
 
+	public Integer getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
+	}
+
 	public Date getEndDate() {
 		return endDate;
 	}
@@ -115,12 +196,36 @@ public class SickLeave implements Serializable{
 		this.endDate = endDate;
 	}
 
-	public Integer getQuantity() {
-		return quantity;
+	public String getNoticeStatus() {
+		return noticeStatus;
 	}
 
-	public void setQuantity(Integer quantity) {
-		this.quantity = quantity;
+	public void setNoticeStatus(String noticeStatus) {
+		this.noticeStatus = noticeStatus;
+	}
+
+	public String getTrafficAccidentType() {
+		return trafficAccidentType;
+	}
+
+	public void setTrafficAccidentType(String trafficAccidentType) {
+		this.trafficAccidentType = trafficAccidentType;
+	}
+
+	public String getDetailSickLeave() {
+		return detailSickLeave;
+	}
+
+	public void setDetailSickLeave(String detailSickLeave) {
+		this.detailSickLeave = detailSickLeave;
+	}
+
+	public String getCid() {
+		return cid;
+	}
+
+	public void setCid(String cid) {
+		this.cid = cid;
 	}
 
 	public String getDoctorName() {
@@ -131,20 +236,84 @@ public class SickLeave implements Serializable{
 		this.doctorName = doctorName;
 	}
 
-	public String getOrgan() {
-		return organ;
+	public String getOrganClass() {
+		return organClass;
 	}
 
-	public void setOrgan(String organ) {
-		this.organ = organ;
+	public void setOrganClass(String organClass) {
+		this.organClass = organClass;
 	}
 
-	public String getInstitution() {
-		return institution;
+	public String getClassOrganRegistration() {
+		return classOrganRegistration;
 	}
 
-	public void setInstitution(String institution) {
-		this.institution = institution;
+	public void setClassOrganRegistration(String classOrganRegistration) {
+		this.classOrganRegistration = classOrganRegistration;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getRectification() {
+		return rectification;
+	}
+
+	public void setRectification(String rectification) {
+		this.rectification = rectification;
+	}
+
+	public String getRectificationOrigin() {
+		return rectificationOrigin;
+	}
+
+	public void setRectificationOrigin(String rectificationOrigin) {
+		this.rectificationOrigin = rectificationOrigin;
+	}
+
+	public String getProcessType() {
+		return processType;
+	}
+
+	public void setProcessType(String processType) {
+		this.processType = processType;
+	}
+
+	public String getProcessNumber() {
+		return processNumber;
+	}
+
+	public void setProcessNumber(String processNumber) {
+		this.processNumber = processNumber;
+	}
+
+	public String getResponsibleCompensation() {
+		return responsibleCompensation;
+	}
+
+	public void setResponsibleCompensation(String responsibleCompensation) {
+		this.responsibleCompensation = responsibleCompensation;
+	}
+
+	public String getLaborUnion() {
+		return laborUnion;
+	}
+
+	public void setLaborUnion(String laborUnion) {
+		this.laborUnion = laborUnion;
+	}
+
+	public String getDocumentNumber() {
+		return documentNumber;
+	}
+
+	public void setDocumentNumber(String documentNumber) {
+		this.documentNumber = documentNumber;
 	}
 
 	public String getExport() {
@@ -154,7 +323,7 @@ public class SickLeave implements Serializable{
 	public void setExport(String export) {
 		this.export = export;
 	}
-	
+
 	public Employee getEmployee() {
 		return employee;
 	}
@@ -186,6 +355,6 @@ public class SickLeave implements Serializable{
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}
+	}	
 
 }

@@ -10,7 +10,6 @@ import br.com.meiraonline.domain.Employee;
 import br.com.meiraonline.domain.NoticeTermination;
 import br.com.meiraonline.exception.MeiraOnlineObjectNotFoundException;
 import br.com.meiraonline.repository.NoticeTerminationRepository;
-import br.com.meiraonline.resource.EmployeeService;
 
 @Service
 public class NoticeTerminationService {
