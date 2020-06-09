@@ -51,6 +51,34 @@ public class SickLeaveService {
 		return this.sickLeaveReponsitory.findByEmployee(pageRequest, employee);
 	}
 	
+	public SickLeave update(SickLeave sickLeave) {
+		Employee employee = this.employeeService.find(sickLeave.getEmployee().getId());
+		sickLeave.setEmployee(employee);
+		SickLeave sickLeaveFind = this.find(sickLeave.getId());		
+		sickLeaveFind.setSickNumber(sickLeave.getSickNumber());
+		sickLeaveFind.setReasonSickLeave(sickLeave.getReasonSickLeave());
+		sickLeaveFind.setStartDate(sickLeave.getStartDate());
+		sickLeaveFind.setQuantity(sickLeave.getQuantity());
+		sickLeaveFind.setEndDate(sickLeave.getEndDate());
+		sickLeaveFind.setNoticeStatus(sickLeave.getNoticeStatus());		
+		sickLeaveFind.setTrafficAccidentType(sickLeave.getTrafficAccidentType());
+		sickLeaveFind.setDetailSickLeave(sickLeave.getDetailSickLeave());
+		sickLeaveFind.setCid(sickLeave.getCid());
+		sickLeaveFind.setDoctorName(sickLeave.getDoctorName());		
+		sickLeaveFind.setOrganClass(sickLeave.getOrganClass());		
+		sickLeaveFind.setClassOrganRegistration(sickLeave.getClassOrganRegistration());		
+		sickLeaveFind.setState(sickLeave.getState());
+		sickLeaveFind.setRectification(sickLeave.getRectification());		
+		sickLeaveFind.setRectificationOrigin(sickLeave.getRectificationOrigin());		
+		sickLeaveFind.setProcessType(sickLeave.getProcessType());
+		sickLeaveFind.setProcessNumber(sickLeave.getProcessNumber());		
+		sickLeaveFind.setResponsibleCompensation(sickLeave.getResponsibleCompensation());		
+		sickLeaveFind.setLaborUnion(sickLeave.getLaborUnion());		
+		sickLeaveFind.setDocumentNumber(sickLeave.getDocumentNumber());		
+		this.sickLeaveReponsitory.save(sickLeaveFind);
+		return sickLeave;
+	}
+	
 	public int export(Long employeeId) {
 		List<SickLeave> sickLeaves = this.findAll(employeeId);
 		sickLeaves.forEach(sickLeave -> sickLeave.setExport("S"));
@@ -63,7 +91,7 @@ public class SickLeaveService {
 		try {
 			this.sickLeaveReponsitory.deleteById(id);
 		}catch(DataIntegrityViolationException div) {
-			throw new DataIntegrityViolationException("Could not delete NoticeTermination. Id " + id + ", Type: " + SickLeave.class.getName());
+			throw new DataIntegrityViolationException("Could not delete Sick Leave. Id " + id + ", Type: " + SickLeave.class.getName());
 		}
 	}
 }

@@ -18,66 +18,65 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import br.com.meiraonline.domain.SickLeave;
+import br.com.meiraonline.domain.SchoolCalendar;
 import br.com.meiraonline.dto.MessageDTO;
-import br.com.meiraonline.service.SickLeaveService;
+import br.com.meiraonline.service.SchoolCalendarService;
 
 @RestController
-@RequestMapping(value = "/sickleaves")
-public class SickLeaveResource {
+@RequestMapping(value = "/schoolCalendars")
+public class SchoolCalendarResource {
 	
 	@Autowired
-	private SickLeaveService sickLeaveService;
+	private SchoolCalendarService schoolCalendarService;
 	
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Validated @RequestBody  SickLeave sickLeave, HttpServletResponse response){
+	public ResponseEntity<SchoolCalendar> insert(@Validated @RequestBody SchoolCalendar schoolCalendar, HttpServletResponse response){
 		response.addHeader("access-control-expose-headers", "location");
-		sickLeave = sickLeaveService.insert(sickLeave);
+		schoolCalendar = this.schoolCalendarService.insert(schoolCalendar);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().
-		path("/{id}").buildAndExpand(sickLeave.getId()).toUri();
+				path("/{id}").buildAndExpand(schoolCalendar.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 	
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public ResponseEntity<SickLeave> find(@PathVariable Long id){
-		SickLeave sickLeave = sickLeaveService.find(id);
-		return ResponseEntity.ok().body(sickLeave);
+	public ResponseEntity<SchoolCalendar> find(@PathVariable Long id){
+		SchoolCalendar schoolCalendar = schoolCalendarService.find(id);
+		return ResponseEntity.ok().body(schoolCalendar);
 	}
 		
 	@CrossOrigin(origins = "http://localhost:4200")
-	@RequestMapping(value="/employee/{employeeId}", method = RequestMethod.GET)
-	public ResponseEntity<Page<SickLeave>> find(
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<Page<SchoolCalendar>> find(
 			@RequestParam(value="page", defaultValue="0") Integer page, 
 			@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage, 
 			@RequestParam(value="orderBy", defaultValue="id") String orderBy, 
-			@RequestParam(value="direction", defaultValue="ASC") String direction,
-			@PathVariable Long employeeId){
-		Page<SickLeave> sickLeaves = sickLeaveService.findAll(page, linesPerPage, orderBy, direction, employeeId);
-		return ResponseEntity.ok(sickLeaves);
+			@RequestParam(value="direction", defaultValue="ASC") String direction){
+		Page<SchoolCalendar> schoolCalendars = schoolCalendarService.findAll(page, linesPerPage, orderBy, direction);
+		return ResponseEntity.ok(schoolCalendars);
 	}
 	
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(value="{id}", method=RequestMethod.PUT)
-	public ResponseEntity<Void> update(@Validated @RequestBody SickLeave sickLeave, @PathVariable Long id){
-		sickLeave.setId(id);
-		this.sickLeaveService.update(sickLeave);
+	public ResponseEntity<Void> update(@Validated @RequestBody SchoolCalendar schoolCalendar, @PathVariable Long id){
+		schoolCalendar.setId(id);
+		this.schoolCalendarService.update(schoolCalendar);
 		return ResponseEntity.noContent().build();
 	}
 	
 	@CrossOrigin(origins = "http://localhost:4200")
-	@RequestMapping(value = "/export/{employeeId}", method=RequestMethod.PATCH)
-	public ResponseEntity<MessageDTO> export(@PathVariable Long employeeId){
-		int quantity = this.sickLeaveService.export(employeeId);
+	@RequestMapping(value = "/export/{id}", method=RequestMethod.PATCH)
+	public ResponseEntity<MessageDTO> export(@PathVariable Long id){
+		SchoolCalendar schoolCalendar = this.schoolCalendarService.export(id);
 		MessageDTO message = new MessageDTO();
 		message.setDate(new Date());
-		if(quantity > 0) {
-			message.setStatus("OK");
-			message.setMessage("Found " + quantity + " and exports with success");
-		}else {
+		if(schoolCalendar == null) {
 			message.setStatus("NOK");
-			message.setMessage("There is no Sick Leave for employee " + employeeId + ".");
+			message.setMessage("There is no Sick Leave for employee " + id + ".");
+		}else {
+			message.setStatus("OK");
+			message.setMessage("Found " + schoolCalendar.getId() + " and exported with success");
 		}
 		return ResponseEntity.ok(message);
 	}
@@ -85,8 +84,7 @@ public class SickLeaveResource {
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(value = "/{id}", method=RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Long id){
-		this.sickLeaveService.delete(id);
-		System.out.println("Excluindo o objeto " + id);
+		this.schoolCalendarService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
 
