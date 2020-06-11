@@ -3,6 +3,8 @@ package br.com.meiraonline.resource;
 import java.net.URI;
 import java.util.Date;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -29,10 +31,11 @@ public class PreliminaryRegistrationResource {
 	
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<PreliminaryRegistration> save(@Validated @RequestBody PreliminaryRegistration preliminaryRegistration){
+	public ResponseEntity<PreliminaryRegistration> save(@Validated @RequestBody PreliminaryRegistration preliminaryRegistration, HttpServletResponse response){
+		response.addHeader("access-control-expose-headers", "location");
 		preliminaryRegistration = this.preliminaryRegistrationService.save(preliminaryRegistration);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().
-				path("/{}").buildAndExpand(preliminaryRegistration.getId()).toUri();
+				path("/{id}").buildAndExpand(preliminaryRegistration.getId()).toUri();
 		return ResponseEntity.created(uri).build();	
 	}
 
