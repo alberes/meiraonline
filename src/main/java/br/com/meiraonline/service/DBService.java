@@ -9,9 +9,11 @@ import org.springframework.stereotype.Service;
 
 import br.com.meiraonline.domain.Employee;
 import br.com.meiraonline.domain.NoticeTermination;
+import br.com.meiraonline.domain.PreliminaryRegistration;
 import br.com.meiraonline.domain.SchoolCalendar;
 import br.com.meiraonline.domain.SickLeave;
 import br.com.meiraonline.repository.EmployeeRepository;
+import br.com.meiraonline.repository.PreliminaryRegistrationRepository;
 import br.com.meiraonline.repository.SchoolCalendarRepository;
 import br.com.meiraonline.repository.SickLeaveReponsitory;
 
@@ -30,17 +32,22 @@ public class DBService {
 	@Autowired
 	private SchoolCalendarRepository schoolCalendarRepository;
 	
+	@Autowired
+	private PreliminaryRegistrationRepository preliminaryRegistrationRepository;
+	
 	public void instantiateTestDataBase() {
 		List<Employee> employees = new ArrayList<Employee>();
 		//List<NoticeTermination> terminationNotices = new ArrayList<NoticeTermination>();
 		List<SickLeave> sickLeaves = new ArrayList<SickLeave>();
 		List<SchoolCalendar> schoolCalendars = new ArrayList<SchoolCalendar>();
+		List<PreliminaryRegistration> preliminaryregistrations = new ArrayList<PreliminaryRegistration>();
 		
 		for(int i = 0; i <= 100; i++) {
 			Employee employee = new Employee("Employee " + (i + 1));
 			employees.add(employee);
 			schoolCalendars.add(new SchoolCalendar("Calendário Escolar " + i, (200 + i), new Date(), new Date(), new Date(), new Date()
 					, new Date(), new Date(), new Date(), new Date(), new Date(), new Date(), new Date(), new Date(), new Date(), new Date()));
+			preliminaryregistrations.add(new PreliminaryRegistration("Name " + i, "M", "123456789-" + i, new Date(), new Date(), "N"));
 			//terminationNotices.add(new NoticeTermination(i, i, i, new Date(), new Date(),
 			//		new Date(), "S", i, new Date(), i, "N", employee));
 			//sickLeaves.add(new SickLeave("sickNumber " + i, "Reason " + i, new Date(), new Date(), i,
@@ -52,6 +59,7 @@ public class DBService {
 		//employeeRepository.flush();
 		sickLeaveReponsitory.saveAll(sickLeaves);
 		schoolCalendarRepository.saveAll(schoolCalendars);
+		preliminaryRegistrationRepository.saveAll(preliminaryregistrations);
 		//noticeTerminationRepository.saveAll(terminationNotices);
 	}
 

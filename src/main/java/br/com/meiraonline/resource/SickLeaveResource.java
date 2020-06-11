@@ -31,9 +31,9 @@ public class SickLeaveResource {
 	
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Validated @RequestBody  SickLeave sickLeave, HttpServletResponse response){
+	public ResponseEntity<Void> save(@Validated @RequestBody  SickLeave sickLeave, HttpServletResponse response){
 		response.addHeader("access-control-expose-headers", "location");
-		sickLeave = sickLeaveService.insert(sickLeave);
+		sickLeave = sickLeaveService.save(sickLeave);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().
 		path("/{id}").buildAndExpand(sickLeave.getId()).toUri();
 		return ResponseEntity.created(uri).build();

@@ -19,7 +19,7 @@ public class SchoolCalendarService {
 	@Autowired
 	private SchoolCalendarRepository schoolCalendarRepository;
 	
-	public SchoolCalendar insert(SchoolCalendar schoolCalendar) {
+	public SchoolCalendar save(SchoolCalendar schoolCalendar) {
 		schoolCalendar.setId(null);
 		this.schoolCalendarRepository.save(schoolCalendar);
 		return schoolCalendar;

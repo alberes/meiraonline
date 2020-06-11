@@ -29,9 +29,9 @@ public class NoticeTerminationResource {
 	
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Validated @RequestBody NoticeTermination noticeTermination, HttpServletResponse response){
+	public ResponseEntity<Void> save(@Validated @RequestBody NoticeTermination noticeTermination, HttpServletResponse response){
 		response.addHeader("access-control-expose-headers", "location");
-		noticeTermination = this.noticeTerminationService.insert(noticeTermination);
+		noticeTermination = this.noticeTerminationService.save(noticeTermination);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().
 				path("/{id}").buildAndExpand(noticeTermination.getId()).toUri();
 		return ResponseEntity.created(uri).build();

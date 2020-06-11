@@ -20,7 +20,7 @@ public class NoticeTerminationService {
 	@Autowired
 	private EmployeeService employeeService;
 	
-	public NoticeTermination insert(NoticeTermination noticeTermination) {
+	public NoticeTermination save(NoticeTermination noticeTermination) {
 		noticeTermination.setId(null);
 		Employee employee = employeeService.find(noticeTermination.getEmployee().getId());
 		noticeTermination.setEmployee(employee);

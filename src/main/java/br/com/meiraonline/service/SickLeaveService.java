@@ -24,7 +24,7 @@ public class SickLeaveService {
 	@Autowired
 	private EmployeeService employeeService;
 	
-	public SickLeave insert(SickLeave sickLeave) {
+	public SickLeave save(SickLeave sickLeave) {
 		sickLeave.setId(null);
 		Employee employee = this.employeeService.find(sickLeave.getEmployee().getId());
 		sickLeave.setEmployee(employee);
