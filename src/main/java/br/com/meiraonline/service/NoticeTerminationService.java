@@ -51,21 +51,23 @@ public class NoticeTerminationService {
 		noticeTerminationFind.setNoticeTypeWorkedId(noticeTermination.getNoticeTypeWorkedId());
 		noticeTerminationFind.setCancelDate(noticeTermination.getCancelDate());
 		noticeTerminationFind.setCancelNoticeReasonId(noticeTermination.getCancelNoticeReasonId());
-		return this.noticeTerminationRepository.save(noticeTerminationFind);
+		noticeTerminationFind = this.noticeTerminationRepository.save(noticeTerminationFind);
+		return noticeTerminationFind;
 	}
 	
-	public NoticeTermination export(NoticeTermination noticeTermination) {
-		NoticeTermination noticeTerminationFind = this.find(noticeTermination.getId());
-		noticeTerminationFind.setExport("S");
-		return this.noticeTerminationRepository.save(noticeTerminationFind);
+	public NoticeTermination export(Long id) {
+		NoticeTermination noticeTermination = this.find(id);
+		noticeTermination.setExport("S");
+		noticeTermination = this.noticeTerminationRepository.save(noticeTermination);
+		return noticeTermination;
 	}
 
 	public void delete(Long id) {
-		this.find(id);
+		NoticeTermination noticeTermination = this.find(id);
 		try {
-			this.noticeTerminationRepository.deleteById(id);
+			this.noticeTerminationRepository.deleteById(noticeTermination.getId());
 		}catch(DataIntegrityViolationException div) {
-			throw new DataIntegrityViolationException("Could not delete NoticeTermination. Id " + id + ", Type: " + NoticeTermination.class.getName());
+			throw new DataIntegrityViolationException("Could not delete Notice Termination. Id " + id + ", Type: " + NoticeTermination.class.getName());
 		}
 	}
 }

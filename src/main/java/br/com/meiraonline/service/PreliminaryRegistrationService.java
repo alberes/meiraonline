@@ -44,21 +44,21 @@ public class PreliminaryRegistrationService {
 		preliminaryRegistrationFind.setDocumentId(preliminaryRegistration.getDocumentId());
 		preliminaryRegistrationFind.setDateBirth(preliminaryRegistration.getDateBirth());
 		preliminaryRegistrationFind.setAdmissionDate(preliminaryRegistration.getAdmissionDate());
-		this.preliminaryRegistrationRepository.save(preliminaryRegistration);
+		preliminaryRegistrationFind = this.preliminaryRegistrationRepository.save(preliminaryRegistration);
 		return preliminaryRegistrationFind;
 	}
 	
 	public PreliminaryRegistration export(Long id) {
 		PreliminaryRegistration preliminaryRegistration = this.find(id);
 		preliminaryRegistration.setExport("S");
-		this.preliminaryRegistrationRepository.save(preliminaryRegistration);
+		preliminaryRegistration = this.preliminaryRegistrationRepository.save(preliminaryRegistration);
 		return preliminaryRegistration;
 	}
 	
 	public void delete(Long id) {
-		this.find(id);
+		PreliminaryRegistration preliminaryRegistration = this.find(id);
 		try {
-			this.preliminaryRegistrationRepository.deleteById(id);
+			this.preliminaryRegistrationRepository.deleteById(preliminaryRegistration.getId());
 		}catch(DataIntegrityViolationException div) {
 			throw new DataIntegrityViolationException("Could not delete Preliminary Registration. Id " + id + ", Type: " + PreliminaryRegistration.class.getName());
 		}

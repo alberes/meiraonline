@@ -75,7 +75,7 @@ public class SickLeaveService {
 		sickLeaveFind.setResponsibleCompensation(sickLeave.getResponsibleCompensation());		
 		sickLeaveFind.setLaborUnion(sickLeave.getLaborUnion());		
 		sickLeaveFind.setDocumentNumber(sickLeave.getDocumentNumber());		
-		this.sickLeaveReponsitory.save(sickLeaveFind);
+		sickLeave = this.sickLeaveReponsitory.save(sickLeaveFind);
 		return sickLeave;
 	}
 	
@@ -87,9 +87,9 @@ public class SickLeaveService {
 	}
 	
 	public void delete(Long id) {
-		this.find(id);
+		SickLeave sickLeave = this.find(id);
 		try {
-			this.sickLeaveReponsitory.deleteById(id);
+			this.sickLeaveReponsitory.deleteById(sickLeave.getId());
 		}catch(DataIntegrityViolationException div) {
 			throw new DataIntegrityViolationException("Could not delete Sick Leave. Id " + id + ", Type: " + SickLeave.class.getName());
 		}

@@ -62,9 +62,7 @@ public class NoticeTerminationResource {
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(value="/export/{id}", method=RequestMethod.PATCH)
 	public ResponseEntity<MessageDTO> export(@Validated @RequestBody @PathVariable Long id){
-		NoticeTermination noticeTermination = new NoticeTermination();
-		noticeTermination.setId(id);
-		noticeTermination = this.noticeTerminationService.export(noticeTermination);
+		NoticeTermination noticeTermination = this.noticeTerminationService.export(id);
 		MessageDTO message = new MessageDTO();
 		message.setDate(new Date());
 		if(noticeTermination == null) {

@@ -54,21 +54,21 @@ public class SchoolCalendarService {
 		schoolCalendarFind.setEndDateFirstHalfRecess(schoolCalendar.getEndDateFirstHalfRecess());
 		schoolCalendarFind.setStartDateSecondHalfRecess(schoolCalendar.getStartDateSecondHalfRecess());
 		schoolCalendarFind.setEndDateSecondHalfRecess(schoolCalendar.getEndDateSecondHalfRecess());		
-		this.schoolCalendarRepository.save(schoolCalendarFind);
+		schoolCalendarFind = this.schoolCalendarRepository.save(schoolCalendarFind);
 		return schoolCalendarFind;
 	}
 	
 	public SchoolCalendar export(Long id) {
 		SchoolCalendar schoolCalendar = this.find(id);
 		schoolCalendar.setExport("S");
-		this.schoolCalendarRepository.save(schoolCalendar);
+		schoolCalendar = this.schoolCalendarRepository.save(schoolCalendar);
 		return schoolCalendar;
 	}
 	
 	public void delete(Long id) {
-		this.find(id);
+		SchoolCalendar schoolCalendar = this.find(id);
 		try {
-			this.schoolCalendarRepository.deleteById(id);
+			this.schoolCalendarRepository.deleteById(schoolCalendar.getId());
 		}catch(DataIntegrityViolationException div) {
 			throw new DataIntegrityViolationException("Could not delete School Calendar. Id " + id + ", Type: " + SchoolCalendar.class.getName());
 		}
